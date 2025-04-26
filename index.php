@@ -1,4 +1,5 @@
-<?php include('database/conexion.php'); ?>
+<?php session_start(); ?>
+<?php include("database/conexion.php"); ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -16,13 +17,19 @@
     <!-- se utiliza para asegurar que las páginas web se rendericen correctamente en las versiones más recientes del navegador -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    <!-- logo en miniatura -->
+    <link rel="Icon" href="img/brain-solid.svg">
+
     <!-- ICONSOUT CDN -->
     <script src="https://kit.fontawesome.com/975a84afb8.js" crossorigin="anonymous"></script>
 
 </head>
 
 <body>
-    <?php include("includes/header.php"); ?>
+    <?php
+    $pagina_actual = 'inicio';
+    include('includes/header.php');
+    ?>
 
     <!-- PORTADA/HERO -->
     <section class="hero">
@@ -37,19 +44,84 @@
                     tu bienestar.</p>
                 <div class="hero-buttons">
                     <button class="btn" onclick="location.href='profesionales.php#servicios'">Servicios</button>
-                    <button class="btn2" onclick="location.href='contacto.php#cita'">Pide tu cita</button>
+                    <button class="btn btn6" onclick="location.href='contacto.php#cita'">Pide tu cita</button>
                 </div>
             </div>
         </div>
     </section>
 
+    <section class="intro">
+        <div class="intro_container">
+            <div class="intro_info">
+
+                <div class="intro_info_text">
+                    <p class="subtitulo">Psicología</p>
+                    <h1>Centro MindCore</h1>
+                    <p>La mayoría de las personas somos conscientes de nuestros desequilibrios emocionales o problemas
+                        personales, que nos hacen pensar en la posibilidad de pedir ayuda psicológica, sin embargo,
+                        tomar esta decisión no resulta fácil.</p>
+
+                    <p>Decidir por sí mismos, buscar información y elegir al profesional adecuado es un buen comienzo
+                        que facilitará el autoanálisis y la implicación activa en el proceso de terapia.
+                        Progresivamente, la mayoría de nuestros clientes solicitan la ayuda psicológica de manera
+                        voluntaria.</p>
+                    <button class="btn btn5" onclick="location.href='contacto.php'">Más Sobre Nostros</button>
+                </div>
+                <div class="intro_info_img">
+                    <img src="img/despacho.png" alt="despacho psicología">
+                </div>
+            </div>
+            <div class="intro_cards">
+                <div class="intro_cards_container">
+                    <div class="intro_card card1">
+                        <p class="subtitulo">
+                            Otros
+                        </p>
+                        <i class="fa-solid fa-hexagon-nodes"></i>
+                        <h4>Neuropsicología</h4>
+                    </div>
+                    <div class="intro_card card2">
+                        <p class="subtitulo">
+                            Psicología
+                        </p>
+                        <i class="fa-solid fa-scale-balanced"></i>
+                        <h4>Psicología Jurídica</h4>
+                    </div>
+                    <div class="intro_card card3">
+                        <p class="subtitulo">
+                            Psicología
+                        </p>
+                        <i class="fa-solid fa-hands-holding-child"></i>
+                        <h4>Psicología Infantil y Juvenil</h4>
+                    </div>
+                    <div class="intro_card card4">
+                        <p class="subtitulo">
+                            Psicología
+                        </p>
+                        <i class="fa-solid fa-user-group"></i>
+                        <h4>Psicología Adultos</h4>
+                    </div>
+                    <div class="intro_card card5">
+                        <p class="subtitulo">
+                            Otros
+                        </p>
+                        <i class="fa-solid fa-bullhorn"></i>
+                        <h4>Logopedia</h4>
+                    </div>
+                </div>
+                </di>
+            </div>
+    </section>
+
+
+
     <!-- TARJETAS EN ESCALERA -->
-    <section class="tarjetas-escalera animar-aparicion">
+    <section class="tarjetas_escalera animar-aparicion">
         <div class="tarjeta t1">
             <h3>SERVICIOS</h3>
             <p>Desde terapia individual hasta acompañamiento familiar, descubre cómo te ayudamos a reconectar contigo
                 mismo.</p>
-            <button class="btn" onclick="location.href='profesionales.php#servicios'">Ver servicios</button>
+            <button class="btn" onclick="location.href='profesionales.php'">Ver servicios</button>
         </div>
         <div class="tarjeta t2">
             <h3>TERAPEUTAS</h3>
@@ -59,17 +131,18 @@
         <div class="tarjeta t3">
             <h3>TESTIMONIOS</h3>
             <p>Historias reales de superación contadas por quienes decidieron dar el primer paso hacia el cambio.</p>
-            <button class="btn3" onclick="location.href='contacto.php#testimonios'">Leer más</button>
+            <button class="btn3" onclick="location.href='contacto.php'">Leer más</button>
         </div>
     </section>
 
     <!-- SOBRE NOSOTROS -->
     <section class="sobre_nosotros animar-aparicion">
 
-        <div class="sobre-img">
+        <div class="sobre_img">
             <img src="img/sobre_nosotros.png" alt="Sobre nosotros">
         </div>
-        <div class="sobre-texto">
+        <div class="sobre_texto">
+            <p class="subtitulo">TE AYUDAMOS</p>
             <h2>UN ESPACIO PARA TU BIENESTAR EMOCIONAL</h2>
             <p>En MindCore, creemos que cada persona merece un espacio donde sentirse escuchada y comprendida.
                 Nuestro
@@ -77,7 +150,30 @@
             <p>Contamos con profesionales capacitados en distintas áreas de la salud mental que trabajan contigo
                 para
                 superar obstáculos, sanar heridas y redescubrir tu fuerza interior.</p>
-            <button class="btn" onclick="location.href='contacto.php'">Contáctanos</button>
+
+
+            <div class="sobre_datos">
+                <div class="sobre_datos_container">
+                    <div class="sobre_dato">
+                        <h2>200</h2>
+                        <p>Pacientes al año</p>
+                    </div>
+                    <div class="sobre_dato">
+                        <h2>7</h2>
+                        <p>Profesionales</p>
+                    </div>
+                    <div class="sobre_dato">
+                        <h2>15</h2>
+                        <p>Años de experiencia</p>
+                    </div>
+                    <div class="sobre_dato">
+                        <h2>2500</h2>
+                        <p>Pacientes satisfechos</p>
+                    </div>
+                </div>
+
+            </div>
+            <button class="btn  btn5" onclick="location.href='contacto.php'">Contáctanos</button>
         </div>
 
     </section>
