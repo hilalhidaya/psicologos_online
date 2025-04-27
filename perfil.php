@@ -1,4 +1,3 @@
-
 <?php
 include("includes/proteger.php");
 include("database/conexion.php");
@@ -6,8 +5,8 @@ include("database/conexion.php");
 $idUser = $_SESSION["idUser"];
 $mensaje = "";
 
-// Obtener datos del usuario
-$sql = "SELECT d.nombre, d.apellidos, d.fecha_nacimiento, d.sexo, d.direccion, d.telefono, l.email 
+// Consulta
+$sql = "SELECT d.nombre, d.apellidos, d.fecha_nacimiento, d.sexo, d.direccion, d.telefono, l.email, l.password
         FROM users_data d 
         JOIN users_login l ON d.idUser = l.idUser 
         WHERE d.idUser = ?";
@@ -17,7 +16,14 @@ $stmt->execute();
 $result = $stmt->get_result();
 $usuario = $result->fetch_assoc();
 
-// Si se envía el formulario
+// ✅ Validar si encontró usuario
+if (!$usuario) {
+    echo "<p style='color:red;'>❗ No se encontró información del usuario. Intenta registrarte de nuevo.</p>";
+    exit();
+}
+
+// Aquí ya es seguro usar $usuario["email"]
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = trim($_POST["nombre"]);
     $apellidos = trim($_POST["apellidos"]);
@@ -27,24 +33,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $telefono = trim($_POST["telefono"]);
     $email = trim($_POST["email"]);
 
-    // Actualizar datos personales
+    $contrasena_actual = $_POST["contrasena_actual"] ?? '';
+    $nueva_contrasena = $_POST["nueva_contrasena"] ?? '';
+    $repetir_contrasena = $_POST["repetir_contrasena"] ?? '';
+
+    // Actualizar datos
     $sql1 = "UPDATE users_data SET nombre=?, apellidos=?, fecha_nacimiento=?, sexo=?, direccion=?, telefono=? WHERE idUser=?";
     $stmt1 = $conexion->prepare($sql1);
     $stmt1->bind_param("ssssssi", $nombre, $apellidos, $fecha_nacimiento, $sexo, $direccion, $telefono, $idUser);
     $stmt1->execute();
 
-    // Actualizar email
     $sql2 = "UPDATE users_login SET email=? WHERE idUser=?";
     $stmt2 = $conexion->prepare($sql2);
     $stmt2->bind_param("si", $email, $idUser);
     $stmt2->execute();
 
-    $mensaje = "<p class='alerta-exito'>✔ Datos actualizados correctamente.</p>";
-    $usuario = compact("nombre", "apellidos", "fecha_nacimiento", "sexo", "direccion", "telefono", "email");
+    // Cambiar contraseña
+    if (!empty($contrasena_actual) && !empty($nueva_contrasena) && !empty($repetir_contrasena)) {
+        if (password_verify($contrasena_actual, $usuario["password"])) {
+            if ($nueva_contrasena === $repetir_contrasena) {
+                $nueva_password_hash = password_hash($nueva_contrasena, PASSWORD_DEFAULT);
+                $sql3 = "UPDATE users_login SET password=? WHERE idUser=?";
+                $stmt3 = $conexion->prepare($sql3);
+                $stmt3->bind_param("si", $nueva_password_hash, $idUser);
+                $stmt3->execute();
+                $mensaje = "<p class='alerta-exito'>✔ Datos y contraseña actualizados correctamente.</p>";
+            } else {
+                $mensaje = "<p class='alerta-error'>❗ Las nuevas contraseñas no coinciden.</p>";
+            }
+        } else {
+            $mensaje = "<p class='alerta-error'>❗ Contraseña actual incorrecta.</p>";
+        }
+    } else {
+        $mensaje = "<p class='alerta-exito'>✔ Datos actualizados correctamente.</p>";
+    }
+
+    // REFRESCAR datos tras actualizar
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $idUser);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $usuario = $result->fetch_assoc();
 }
 ?>
 
 
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -70,7 +105,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
     <?php include("includes/header.php"); ?>
-    <link rel="stylesheet" href="css/perfil.css">
 
     <section class="perfil-wrap">
         <div class="perfil-container">
@@ -80,27 +114,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php if (!empty($mensaje))
                 echo $mensaje; ?>
 
-            <form method="post">
-                <input type="text" name="nombre" placeholder="Nombre" value="<?= $usuario['nombre'] ?>" required>
-                <input type="text" name="apellidos" placeholder="Apellidos" value="<?= $usuario['apellidos'] ?>"
-                    required>
-                <input type="email" name="email" placeholder="Correo electrónico" value="<?= $usuario['email'] ?>"
-                    required>
-                <input type="text" name="telefono" placeholder="Teléfono" value="<?= $usuario['telefono'] ?>" required>
-                <input type="date" name="fecha_nacimiento" value="<?= $usuario['fecha_nacimiento'] ?>" required>
-                <input type="text" name="direccion" placeholder="Dirección" value="<?= $usuario['direccion'] ?>">
-                <select name="sexo" required>
-                    <option value="">Sexo</option>
+            <form method="POST" id="formulario-perfil">
+                <label>Correo electrónico (no editable)</label>
+                <input type="email" value="<?= htmlspecialchars($usuario['email']) ?>" disabled>
+
+                <label>Nombre</label>
+                <input type="text" name="nombre" value="<?= htmlspecialchars($usuario['nombre']) ?>" required disabled>
+
+                <label>Apellidos</label>
+                <input type="text" name="apellidos" value="<?= htmlspecialchars($usuario['apellidos']) ?>" required
+                    disabled>
+
+                <label>Teléfono</label>
+                <input type="text" name="telefono" value="<?= htmlspecialchars($usuario['telefono']) ?>" required
+                    disabled>
+
+                <label>Fecha de nacimiento</label>
+                <input type="date" name="fecha_nacimiento" value="<?= htmlspecialchars($usuario['fecha_nacimiento']) ?>"
+                    required disabled>
+
+                <label>Dirección</label>
+                <input type="text" name="direccion" value="<?= htmlspecialchars($usuario['direccion']) ?>" disabled>
+
+                <label>Sexo</label>
+                <select name="sexo" disabled>
+                    <option value="">Seleccionar</option>
                     <option value="masculino" <?= ($usuario['sexo'] == 'masculino') ? 'selected' : '' ?>>Masculino</option>
                     <option value="femenino" <?= ($usuario['sexo'] == 'femenino') ? 'selected' : '' ?>>Femenino</option>
                     <option value="otro" <?= ($usuario['sexo'] == 'otro') ? 'selected' : '' ?>>Otro</option>
                 </select>
-                <button class="btn3" type="submit">Guardar cambios</button>
+
+                <h3>Cambiar Contraseña</h3>
+
+                <label>Contraseña actual</label>
+                <input type="password" name="contrasena_actual" placeholder="********" disabled>
+
+                <label>Nueva contraseña</label>
+                <input type="password" name="nueva_contrasena" placeholder="********" disabled>
+
+                <label>Repetir nueva contraseña</label>
+                <input type="password" name="repetir_contrasena" placeholder="********" disabled>
+
+                <div class="perfil-botones">
+                    <button type="button" id="btn-editar" class="btn2">Editar</button>
+                    <button type="submit" id="btn-guardar" class="btn3" style="display:none;">Guardar cambios</button>
+                </div>
             </form>
         </div>
     </section>
 
     <?php include("includes/footer.php"); ?>
+
+    <script>
+        // Activar todos los campos (excepto el email)
+        document.getElementById('btn-editar').addEventListener('click', function () {
+            const inputs = document.querySelectorAll('#formulario-perfil input:not([type=email]), #formulario-perfil select');
+            inputs.forEach(input => input.disabled = false);
+            document.getElementById('btn-guardar').style.display = 'inline-block';
+            this.style.display = 'none';
+        });
+    </script>
 
 </body>
 

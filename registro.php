@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Comprobar si el email ya existe
-    $stmt = $conexion->prepare("SELECT id FROM users_login WHERE email = ?");
+    $stmt = $conexion->prepare("SELECT idUser FROM users_login WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();

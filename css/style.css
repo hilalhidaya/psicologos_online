@@ -73,7 +73,13 @@ button {
 .nav-links {
     list-style: none;
     display: flex;
+    align-items: center;
     gap: 1.5rem;
+    position: relative; /* AGREGADO */
+}
+
+.nav-links > li {
+    position: relative; /* AGREGADO */
 }
 
 .nav-links li a {
@@ -97,7 +103,48 @@ button {
     font-weight: bold;
 }
 
+/* SUBMENÚ ADMINISTRACIÓN */
+.submenu {
+    position: relative;
+}
 
+.submenu-items {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--blanco);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 0.5rem 0;
+    min-width: 180px;
+    z-index: 1000;
+    opacity: 0; /* Para animación */
+    transform: translateY(10px); /* Para animación */
+    transition: all 0.3s ease; /* Para animación */
+}
+
+.submenu-items li a {
+    display: block;
+    padding: 0.8rem 1rem;
+    color: var(--verde-oscuro);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.submenu-items li a:hover {
+    background-color: var(--beige);
+}
+
+.submenu:hover .submenu-items {
+    display: block;
+    opacity: 1; /* Animación */
+    transform: translateY(0); /* Animación */
+}
+
+
+   
 /* BOTONES */
 .btn {
     background-color: var(--verde-oscuro);
@@ -1561,6 +1608,74 @@ form textarea {
   }
   
 
+
+  /* pagina usuariosadministracion */
+
+  /* admin.css */
+
+.admin-wrap {
+    padding: 4rem 2rem;
+    background-color: var(--beige);
+    min-height: 100vh;
+}
+
+.admin-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: var(--blanco);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.admin-container h2 {
+    font-size: 2rem;
+    color: var(--verde-oscuro);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.tabla-admin table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-admin th, .tabla-admin td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--gris-claro);
+}
+
+.tabla-admin th {
+    background-color: var(--verde-oscuro);
+    color: var(--blanco);
+}
+
+.tabla-admin a.btn2 {
+    background-color: var(--naranja);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.tabla-admin a.btn2:hover {
+    background-color: #f58b34;
+}
+
+.tabla-admin a.btn-danger {
+    background-color: crimson;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.tabla-admin a.btn-danger:hover {
+    background-color: darkred;
+}
 
 
 
