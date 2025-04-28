@@ -89,9 +89,9 @@ if (isset($_GET['editar'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -105,110 +105,151 @@ if (isset($_GET['editar'])) {
 </head>
 
 <body>
-<?php
-$pagina_actual = 'articulos_admin';
-include("includes/header.php");
-?>
+    <?php
+    $pagina_actual = 'articulos_admin';
+    include("includes/header.php");
+    ?>
 
-<section class="admin-wrap">
-  <div class="admin-container">
-    <h2>Administrar Artículos</h2>
+    <section class="admin-wrap">
+        <div class="admin-container">
+            <h2>Administrar Artículos</h2>
 
-    <?php if (!$editando): ?>
-      <button onclick="toggleCrearArticulo()" class="btn3">Crear Nuevo Artículo</button>
+            <?php if (!$editando): ?>
+                <button onclick="toggleCrearArticulo()" class="btn3">Crear Nuevo Artículo</button>
 
-      <div id="formCrearArticulo" style="display:none; margin-top:20px;">
-        <div class="form-crear">
-          <form action="articulos_admin.php" method="POST" enctype="multipart/form-data" class="form-grid">
-            <div style="grid-column: span 2;">
-              <label>Título:</label>
-              <input type="text" name="titulo" required>
+                <div id="formCrearArticulo" style="display:none; margin-top:20px; opacity:0; transition: opacity 0.5s;">
+                    <div class="form-crear">
+                        <form action="articulos_admin.php" method="POST" enctype="multipart/form-data" class="form-grid">
+                            <div style="grid-column: span 2;">
+                                <label>Título:</label>
+                                <input type="text" name="titulo" required>
+                            </div>
+                            <div style="grid-column: span 2;">
+                                <label>Resumen:</label>
+                                <textarea name="resumen" rows="3" required></textarea>
+                            </div>
+                            <div style="grid-column: span 2;">
+                                <label>Contenido:</label>
+                                <textarea name="contenido" id="editor" rows="6" required></textarea>
+                            </div>
+                            <div style="grid-column: span 2;">
+                                <label>Imagen:</label>
+                                <input type="file" name="imagen" accept="image/*">
+                            </div>
+                            <div style="grid-column: span 2; text-align:center;">
+                                <button type="submit" name="crear_articulo" class="btn2">Publicar Artículo</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($editando): ?>
+                <div class="form-editar">
+                    <h3>Editar Artículo</h3>
+                    <form action="articulos_admin.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="<?= $idEditar ?>">
+
+                        <label>Título:</label>
+                        <input type="text" name="titulo" value="<?= htmlspecialchars($articuloEditar['titulo']) ?>"
+                            required>
+
+                        <label>Resumen:</label>
+                        <textarea name="resumen" rows="3"
+                            required><?= htmlspecialchars($articuloEditar['resumen']) ?></textarea>
+
+                        <label>Contenido:</label>
+                        <textarea name="contenido" id="editor" rows="6"
+                            required><?= htmlspecialchars($articuloEditar['contenido']) ?></textarea>
+
+                        <label>Cambiar Imagen:</label>
+                        <input type="file" name="imagen" accept="image/*">
+
+                        <button type="submit" name="editar_articulo" class="btn2">Guardar Cambios</button>
+                        <a href="articulos_admin.php" class="btn-danger">Cancelar</a>
+                    </form>
+                </div>
+            <?php endif; ?>
+
+            <div class="tabla-admin">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $resultado->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($row["titulo"]) ?></td>
+                                <td><?= htmlspecialchars($row["nombre"] . " " . $row["apellidos"]) ?></td>
+                                <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($row["fecha"]))) ?></td>
+                                <td style="position: relative;">
+                                    <button class="btn-acciones" onclick="toggleMenu(this)">⋮</button>
+                                    <div class="menu-acciones">
+                                        <a href="articulos_admin.php?editar=<?= $row["id"] ?>">Editar</a>
+                                        <a href="articulos_admin.php?eliminar=<?= $row["id"] ?>"
+                                            onclick="return confirm('¿Seguro que deseas eliminar este artículo?')">Eliminar</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
             </div>
-            <div style="grid-column: span 2;">
-              <label>Resumen:</label>
-              <textarea name="resumen" rows="3" required></textarea>
-            </div>
-            <div style="grid-column: span 2;">
-              <label>Contenido:</label>
-              <textarea name="contenido" rows="6" required></textarea>
-            </div>
-            <div style="grid-column: span 2;">
-              <label>Imagen:</label>
-              <input type="file" name="imagen" accept="image/*">
-            </div>
-            <div style="grid-column: span 2; text-align:center;">
-              <button type="submit" name="crear_articulo" class="btn2">Publicar Artículo</button>
-            </div>
-          </form>
+
         </div>
-      </div>
-    <?php endif; ?>
+    </section>
 
-    <?php if ($editando): ?>
-      <div class="form-editar">
-        <h3>Editar Artículo</h3>
-        <form action="articulos_admin.php" method="POST" enctype="multipart/form-data">
-          <input type="hidden" name="id" value="<?= $idEditar ?>">
+    <?php include("includes/footer.php"); ?>
 
-          <label>Título:</label>
-          <input type="text" name="titulo" value="<?= htmlspecialchars($articuloEditar['titulo']) ?>" required>
+    <!-- Toggle Crear Artículo -->
+    <script>
+        function toggleCrearArticulo() {
+            var form = document.getElementById('formCrearArticulo');
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+                setTimeout(function () {
+                    form.style.opacity = '1';
+                }, 10);
+            } else {
+                form.style.opacity = '0';
+                setTimeout(function () {
+                    form.style.display = 'none';
+                }, 500);
+            }
+        }
+    </script>
 
-          <label>Resumen:</label>
-          <textarea name="resumen" rows="3" required><?= htmlspecialchars($articuloEditar['resumen']) ?></textarea>
 
-          <label>Contenido:</label>
-          <textarea name="contenido" rows="6" required><?= htmlspecialchars($articuloEditar['contenido']) ?></textarea>
 
-          <label>Cambiar Imagen:</label>
-          <input type="file" name="imagen" accept="image/*">
+    <script>
+        function toggleMenu(button) {
+            const menu = button.nextElementSibling;
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
 
-          <button type="submit" name="editar_articulo" class="btn2">Guardar Cambios</button>
-          <a href="articulos_admin.php" class="btn-danger">Cancelar</a>
-        </form>
-      </div>
-    <?php endif; ?>
+            // Cierra otros menús abiertos
+            document.querySelectorAll('.menu-acciones').forEach(function (otherMenu) {
+                if (otherMenu !== menu) {
+                    otherMenu.style.display = 'none';
+                }
+            });
+        }
 
-    <div class="tabla-admin">
-      <table>
-        <thead>
-          <tr>
-            <th>Título</th>
-            <th>Autor</th>
-            <th>Fecha</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php while ($row = $resultado->fetch_assoc()): ?>
-            <tr>
-              <td><?= htmlspecialchars($row["titulo"]) ?></td>
-              <td><?= htmlspecialchars($row["nombre"] . " " . $row["apellidos"]) ?></td>
-              <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($row["fecha"]))) ?></td>
-              <td>
-                <a href="articulos_admin.php?editar=<?= $row["id"] ?>" class="btn2">Editar</a>
-                <a href="articulos_admin.php?eliminar=<?= $row["id"] ?>" class="btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este artículo?')">Eliminar</a>
-              </td>
-            </tr>
-          <?php endwhile; ?>
-        </tbody>
-      </table>
-    </div>
+        // Cierra el menú si haces click fuera
+        document.addEventListener('click', function (e) {
+            if (!e.target.matches('.btn-acciones')) {
+                document.querySelectorAll('.menu-acciones').forEach(function (menu) {
+                    menu.style.display = 'none';
+                });
+            }
+        });
+    </script>
 
-  </div>
-</section>
-
-<?php include("includes/footer.php"); ?>
-
-<script>
-function toggleCrearArticulo() {
-    var form = document.getElementById('formCrearArticulo');
-    if (form.style.display === 'none' || form.style.display === '') {
-        form.style.display = 'block';
-    } else {
-        form.style.display = 'none';
-    }
-}
-</script>
 
 </body>
+
 </html>
