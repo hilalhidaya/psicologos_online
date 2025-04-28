@@ -52,7 +52,7 @@
                 <div class="psicologo_card">
                     <img src="img/psicologo6.png" alt="Psicólogo Marco Silva">
                     <div class="info_basica">
-                        <h3>Marcos Silva</h3>
+                        <h3>Marco Silva</h3>
                         <p>Psicoterapia Integral</p>
                     </div>
                     <div class="info_hover">
