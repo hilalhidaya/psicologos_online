@@ -22,8 +22,6 @@ if (!$usuario) {
     exit();
 }
 
-// Aquí ya es seguro usar $usuario["email"]
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = trim($_POST["nombre"]);
     $apellidos = trim($_POST["apellidos"]);
@@ -31,24 +29,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sexo = $_POST["sexo"];
     $direccion = trim($_POST["direccion"]);
     $telefono = trim($_POST["telefono"]);
-    $email = trim($_POST["email"]);
 
     $contrasena_actual = $_POST["contrasena_actual"] ?? '';
     $nueva_contrasena = $_POST["nueva_contrasena"] ?? '';
     $repetir_contrasena = $_POST["repetir_contrasena"] ?? '';
 
-    // Actualizar datos
+    // Actualizar datos personales
     $sql1 = "UPDATE users_data SET nombre=?, apellidos=?, fecha_nacimiento=?, sexo=?, direccion=?, telefono=? WHERE idUser=?";
     $stmt1 = $conexion->prepare($sql1);
     $stmt1->bind_param("ssssssi", $nombre, $apellidos, $fecha_nacimiento, $sexo, $direccion, $telefono, $idUser);
     $stmt1->execute();
 
-    $sql2 = "UPDATE users_login SET email=? WHERE idUser=?";
-    $stmt2 = $conexion->prepare($sql2);
-    $stmt2->bind_param("si", $email, $idUser);
-    $stmt2->execute();
-
-    // Cambiar contraseña
+    // Cambiar contraseña si corresponde
     if (!empty($contrasena_actual) && !empty($nueva_contrasena) && !empty($repetir_contrasena)) {
         if (password_verify($contrasena_actual, $usuario["password"])) {
             if ($nueva_contrasena === $repetir_contrasena) {

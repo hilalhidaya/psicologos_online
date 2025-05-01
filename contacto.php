@@ -32,8 +32,8 @@ include('includes/header.php');
     <!-- SECCIÓN PORTADA -->
     <section class="contacto_portada">
         <div class="contacto_portada_container">
-        <i class="fa-solid fa-brain"></i>
-        <h1>Contáctanos</h1>
+            <i class="fa-solid fa-brain"></i>
+            <h1>Contáctanos</h1>
         </div>
     </section>
 
@@ -74,13 +74,26 @@ include('includes/header.php');
                 <p><i class="fa-solid fa-envelope"></i> info@mindcore.com</p>
                 <h3>Redes Sociales</h3>
                 <div class="redes_sociales">
-                   <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
                     <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
                     <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- SECCIÓN CITA  -->
+    <section class="contacto-cita animar-aparicion">
+        <div class="cita-container">
+            <h2>¿Quieres pedir una cita con uno de nuestros psicólogos especializados?</h2>
+            <p>Inicia sesión o regístrate para agendar tu primera sesión y empezar a mejorar tu bienestar emocional.</p>
+            <div class="cita-botones">
+                <button class="btn btn2" onclick="location.href='login.php'">Iniciar sesión</button>
+                <button class="btn btn6" onclick="location.href='registro.php'">Registrarse</button>
+            </div>
+        </div>
+    </section>
+
 
 
 

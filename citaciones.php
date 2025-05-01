@@ -6,14 +6,15 @@ $idUser = $_SESSION["idUser"];
 $tipo = $_SESSION["tipo"];
 $mensaje = "";
 
-// Procesar agendamiento de nueva cita (si paciente)
-if ($_SERVER["REQUEST_METHOD"] === "POST" && $tipo === "user") {
+// Procesar agendamiento de nueva cita
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["accion"]) && $_POST["accion"] === "crear") {
   $idPsicologo = (int) $_POST["idPsicologo"];
-  $fechaCita = $conexion->real_escape_string($_POST["fecha_cita"]);
+  $fecha = $conexion->real_escape_string($_POST["fecha"]);
+  $hora = $conexion->real_escape_string($_POST["hora"]);
   $motivo = $conexion->real_escape_string($_POST["motivo"]);
 
-  $insertar = $conexion->prepare("INSERT INTO citas (idUser, id_psicologo, fecha, motivo, estado) VALUES (?, ?, ?, ?, 'pendiente')");
-  $insertar->bind_param("iiss", $idUser, $idPsicologo, $fechaCita, $motivo);
+  $insertar = $conexion->prepare("INSERT INTO citas (idUser, id_psicologo, fecha, hora, motivo, estado) VALUES (?, ?, ?, ?, ?, 'pendiente')");
+  $insertar->bind_param("iisss", $idUser, $idPsicologo, $fecha, $hora, $motivo);
 
   if ($insertar->execute()) {
     $mensaje = "<p class='alerta-exito'>✔ Cita agendada correctamente.</p>";
@@ -22,10 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $tipo === "user") {
   }
 }
 
-// Cancelar cita (paciente)
+// Cancelar cita
 if (isset($_GET['cancelar'])) {
   $idCancelar = (int) $_GET['cancelar'];
-
   $verificar = $conexion->query("SELECT * FROM citas WHERE id = $idCancelar AND idUser = $idUser AND estado IN ('pendiente', 'confirmada')");
   if ($verificar->num_rows > 0) {
     $conexion->query("UPDATE citas SET estado = 'cancelada' WHERE id = $idCancelar");
@@ -35,35 +35,37 @@ if (isset($_GET['cancelar'])) {
   }
 }
 
-// Obtener lista de psicólogos (solo si es paciente)
+// Editar cita
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["accion"]) && $_POST["accion"] === "editar") {
+  $idCita = (int) $_POST["idCita"];
+  $fecha = $conexion->real_escape_string($_POST["fecha"]);
+  $hora = $conexion->real_escape_string($_POST["hora"]);
+  $motivo = $conexion->real_escape_string($_POST["motivo"]);
+
+  $conexion->query("UPDATE citas SET fecha = '$fecha', hora = '$hora', motivo = '$motivo' WHERE id = $idCita AND idUser = $idUser");
+  $mensaje = "<p class='alerta-exito'>✔ Cita modificada correctamente.</p>";
+}
+
+// Obtener lista de psicólogos
 if ($tipo === "user") {
   $sql_psico = "SELECT d.idUser, d.nombre, d.apellidos 
-                  FROM users_data d 
-                  JOIN users_login l ON d.idUser = l.idUser 
-                  WHERE l.tipo = 'admin'";
+                FROM users_data d 
+                JOIN users_login l ON d.idUser = l.idUser 
+                WHERE l.tipo = 'admin'";
   $psicologos = $conexion->query($sql_psico);
 }
 
-// Mostrar citas (para ambos roles)
-if ($tipo === "user") {
-  $sql_citas = "SELECT c.id, c.fecha, c.motivo, c.estado, d.nombre, d.apellidos
-                  FROM citas c
-                  JOIN users_data d ON c.id_psicologo = d.idUser
-                  WHERE c.idUser = ?
-                  ORDER BY c.fecha DESC";
-} else {
-  $sql_citas = "SELECT c.id, c.fecha, c.motivo, c.estado, d.nombre, d.apellidos
-                  FROM citas c
-                  JOIN users_data d ON c.idUser = d.idUser
-                  WHERE c.id_psicologo = ?
-                  ORDER BY c.fecha DESC";
-}
+// Mostrar citas
+$sql_citas = "SELECT c.id, c.fecha, c.hora, c.motivo, c.estado, d.nombre, d.apellidos
+              FROM citas c
+              JOIN users_data d ON c.id_psicologo = d.idUser
+              WHERE c.idUser = ?
+              ORDER BY c.fecha DESC";
 $stmt = $conexion->prepare($sql_citas);
 $stmt->bind_param("i", $idUser);
 $stmt->execute();
 $citas = $stmt->get_result();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -81,7 +83,6 @@ $citas = $stmt->get_result();
 </head>
 
 <body>
-
   <?php
   $pagina_actual = 'citaciones';
   include('includes/header.php');
@@ -91,63 +92,82 @@ $citas = $stmt->get_result();
     <div class="citas-container">
       <h2>Mis citas</h2>
       <p>Consulta y gestiona tus sesiones</p>
+      <?= $mensaje ?>
 
-      <?php if (!empty($mensaje))
-        echo $mensaje; ?>
-
+      <!-- Formulario nueva cita -->
       <?php if ($tipo === "user"): ?>
         <form method="POST" class="citas-formulario">
           <h3>Agendar nueva cita</h3>
+          <input type="hidden" name="accion" value="crear">
           <select name="idPsicologo" required>
             <option value="">Selecciona un profesional</option>
             <?php while ($p = $psicologos->fetch_assoc()): ?>
-              <option value="<?= $p['idUser'] ?>">
-                <?= $p['nombre'] . " " . $p['apellidos'] ?>
-              </option>
+              <option value="<?= $p['idUser'] ?>"><?= $p['nombre'] . " " . $p['apellidos'] ?></option>
             <?php endwhile; ?>
           </select>
-          <input type="datetime-local" name="fecha_cita" id="fecha_cita" required>
-
+          <div class="fecha-hora">
+            <input type="date" name="fecha" id="fecha" required>
+            <input type="time" name="hora" id="hora" required>
+          </div>
           <textarea name="motivo" placeholder="Motivo de la cita" required></textarea>
           <button class="btn btn5" type="submit">Agendar cita</button>
         </form>
       <?php endif; ?>
 
+      <!-- Listado de citas -->
       <div class="citas-listado">
-        <h3><?= $tipo === "user" ? "Citas con tus psicólogos" : "Citas asignadas a ti" ?></h3>
+        <h3>Citas con tus psicólogos</h3>
         <table>
           <thead>
             <tr>
-              <th><?= $tipo === "user" ? "Psicólogo" : "Paciente" ?></th>
+              <th>Psicólogo</th>
               <th>Fecha</th>
               <th>Motivo</th>
               <th>Estado</th>
-              <?php if ($tipo === "user"): ?>
-                <th>Acciones</th>
-              <?php endif; ?>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             <?php while ($cita = $citas->fetch_assoc()): ?>
               <tr>
                 <td><?= $cita["nombre"] . " " . $cita["apellidos"] ?></td>
-                <td><?= $cita["fecha"] ?></td>
+                <td><?= $cita["fecha"] . " " . substr($cita["hora"], 0, 5) ?></td>
                 <td><?= $cita["motivo"] ?></td>
                 <td><?= ucfirst($cita["estado"]) ?></td>
-                <?php if ($tipo === "user"): ?>
-                  <td>
-                    <?php if (in_array($cita["estado"], ["pendiente", "confirmada"])): ?>
-                      <a href="citaciones.php?cancelar=<?= $cita["id"] ?>" class="btn_cancelar"
-                        onclick="return confirm('¿Seguro que deseas cancelar esta cita?')">Cancelar</a>
-                    <?php else: ?>
-                      -
-                    <?php endif; ?>
-                  </td>
-                <?php endif; ?>
+                <td style="position: relative;">
+                  <?php if (strtotime($cita["fecha"]) >= strtotime(date("Y-m-d")) && $cita["estado"] !== 'cancelada'): ?>
+                    <button class="btn-acciones" onclick="toggleMenu(this)">⋮</button>
+                    <div class="menu-acciones">
+                      <a href="#"
+                        onclick="mostrarEditarCita(<?= $cita['id'] ?>, '<?= $cita['fecha'] ?>', '<?= $cita['hora'] ?>', `<?= htmlspecialchars($cita['motivo'], ENT_QUOTES) ?>`)">Editar</a>
+                      <a href="citaciones.php?cancelar=<?= $cita["id"] ?>"
+                        onclick="return confirm('¿Cancelar esta cita?')">Eliminar</a>
+                    </div>
+                  <?php else: ?>
+                    -
+                  <?php endif; ?>
+                </td>
               </tr>
             <?php endwhile; ?>
           </tbody>
         </table>
+      </div>
+
+      <!-- Formulario editar (inicialmente oculto) -->
+      <div id="formEditarCita" style="display:none; margin-top:2rem;">
+        <form method="POST" class="citas-formulario">
+          <h3>Editar cita</h3>
+          <input type="hidden" name="accion" value="editar">
+          <input type="hidden" name="idCita" id="editarIdCita">
+          <div class="fecha-hora">
+            <input type="date" name="fecha" id="editarFecha" required>
+            <input type="time" name="hora" id="editarHora" required>
+          </div>
+          <textarea name="motivo" id="editarMotivo" placeholder="Motivo" required></textarea>
+          <button class="btn btn5" type="submit">Guardar cambios</button>
+          <button type="button" class="btn_cancelar"
+            onclick="document.getElementById('formEditarCita').style.display='none'">Cancelar</button>
+        </form>
       </div>
     </div>
   </section>
@@ -155,42 +175,26 @@ $citas = $stmt->get_result();
   <?php include("includes/footer.php"); ?>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const fechaInput = document.getElementById('fecha_cita');
-      if (!fechaInput) return;
-
-      // Establecer mínimo (hoy +1 minuto) y máximo (hoy +1 mes)
-      const now = new Date();
-      now.setMinutes(now.getMinutes() + 1);
-
-      const max = new Date();
-      max.setMonth(max.getMonth() + 1); // un mes después
-
-      fechaInput.min = now.toISOString().slice(0, 16);
-      fechaInput.max = max.toISOString().slice(0, 16);
-
-      // Validar cada vez que el usuario cambia fecha/hora
-      fechaInput.addEventListener('input', function () {
-        const selected = new Date(this.value);
-
-        const day = selected.getDay(); // 0 = Domingo, 6 = Sábado
-        const hour = selected.getHours();
-
-        // Bloquear fines de semana
-        if (day === 0 || day === 6) {
-          alert('No se pueden agendar citas los fines de semana.');
-          this.value = '';
-          return;
-        }
-
-        // Bloquear fuera de horario laboral
-        if (hour < 10 || hour >= 19) {
-          alert('El horario permitido es de 10:00 a 19:00.');
-          this.value = '';
-          return;
-        }
+    function toggleMenu(btn) {
+      const menu = btn.nextElementSibling;
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      document.querySelectorAll('.menu-acciones').forEach(m => {
+        if (m !== menu) m.style.display = 'none';
       });
+    }
+    document.addEventListener('click', function (e) {
+      if (!e.target.matches('.btn-acciones')) {
+        document.querySelectorAll('.menu-acciones').forEach(m => m.style.display = 'none');
+      }
     });
+
+    function mostrarEditarCita(id, fecha, hora, motivo) {
+      document.getElementById('formEditarCita').style.display = 'block';
+      document.getElementById('editarIdCita').value = id;
+      document.getElementById('editarFecha').value = fecha;
+      document.getElementById('editarHora').value = hora;
+      document.getElementById('editarMotivo').value = motivo;
+    }
   </script>
 
 </body>
