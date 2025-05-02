@@ -210,44 +210,46 @@
     </section>
 
 
-<!-- ÚLTIMOS ARTÍCULOS -->
-<section class="ultimos_articulos animar-aparicion">
-    <p class="subtitulo">BLOG Y NOTICIAS</p>
-    <h2>Últimos artículos</h2>
+    <!-- ÚLTIMOS ARTÍCULOS -->
+    <section class="ultimos_articulos animar-aparicion">
+        <p class="subtitulo">BLOG Y NOTICIAS</p>
+        <h2>Últimos artículos</h2>
 
-    <div class="articulos-grid-5">
-        <?php
-        $sql = "SELECT a.id, a.titulo, a.resumen, d.nombre, d.apellidos
+        <div class="articulos-grid-5">
+            <?php
+            $sql = "SELECT a.id, a.titulo, a.resumen, d.nombre, d.apellidos
                 FROM articulos a
                 JOIN users_data d ON a.id_psicologo = d.idUser
                 ORDER BY a.fecha DESC
                 LIMIT 4";
 
-        $resultado = $conexion->query($sql);
-        $colores = ['beige', 'naranja'];
-        $i = 0;
+            $resultado = $conexion->query($sql);
+            $colores = ['beige', 'naranja'];
+            $i = 0;
 
-        while ($articulo = $resultado->fetch_assoc()):
-            $colorClase = $colores[$i % 2];
-        ?>
-            <article class="articulo-5 <?= $colorClase ?>" style="animation-delay: <?= $i * 0.2 ?>s;">
-                <h3><?= htmlspecialchars($articulo['titulo']) ?></h3>
-                <p><?= htmlspecialchars($articulo['resumen']) ?></p>
-                <small><?= htmlspecialchars($articulo['nombre'] . " " . $articulo['apellidos']) ?></small>
-                <button onclick="location.href='ver_articulo.php?id=<?= $articulo['id'] ?>'" class="btn-leer">Leer más</button>
+            while ($articulo = $resultado->fetch_assoc()):
+                $colorClase = $colores[$i % 2];
+                ?>
+                <article class="articulo-5 <?= $colorClase ?>" style="animation-delay: <?= $i * 0.2 ?>s;">
+                    <h3><?= htmlspecialchars($articulo['titulo']) ?></h3>
+                    <p><?= htmlspecialchars($articulo['resumen']) ?></p>
+                    <small><?= htmlspecialchars($articulo['nombre'] . " " . $articulo['apellidos']) ?></small>
+                    <button onclick="location.href='ver_articulo.php?id=<?= $articulo['id'] ?>'" class="btn-leer">Leer
+                        más</button>
+                </article>
+                <?php $i++; endwhile; ?>
+
+            <!-- Tarjeta especial: Ver más -->
+            <article class="articulo-5 ver-mas" onclick="location.href='blog.php'"
+                style="animation-delay: <?= $i * 0.2 ?>s;">
+                <div>
+                    <h3>Ver más artículos</h3>
+                    <p>Explora todos nuestros contenidos</p>
+                    <span class="flecha">➜</span>
+                </div>
             </article>
-        <?php $i++; endwhile; ?>
-
-        <!-- Tarjeta especial: Ver más -->
-        <article class="articulo-5 ver-mas" onclick="location.href='blog.php'" style="animation-delay: <?= $i * 0.2 ?>s;">
-            <div>
-                <h3>Ver más artículos</h3>
-                <p>Explora todos nuestros contenidos</p>
-                <span class="flecha">➜</span>
-            </div>
-        </article>
-    </div>
-</section>
+        </div>
+    </section>
 
 
 
@@ -259,7 +261,7 @@
 
     <?php include("includes/footer.php"); ?>
 
-
+<script src="js/main.js"></script>
 </body>
 
 </html>

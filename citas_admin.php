@@ -131,7 +131,7 @@ $psicologos = $conexion->query("SELECT d.idUser, d.nombre, d.apellidos
             <h2>Administrar Citas</h2>
 
             <?php if (!$editando): ?>
-                <button onclick="toggleCrearCita()" class="btn3">Crear Nueva Cita</button>
+                <button onclick="toggleCrearCita()" class="btn6">Crear Nueva Cita</button>
 
                 <div id="formCrearCita" style="display:none; margin-top:20px;">
                     <div class="form-crear">

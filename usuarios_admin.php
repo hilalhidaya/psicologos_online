@@ -105,7 +105,7 @@ if (isset($_GET['editar'])) {
             <h2>Administrar Usuarios</h2>
 
             <?php if (!$editando): ?>
-                <button onclick="toggleCrearUsuario()" class="btn3">Crear Nuevo Usuario</button>
+                <button onclick="toggleCrearUsuario()" class="btn6">Crear Nuevo Usuario</button>
 
                 <div id="formCrearUsuario" style="display:none; margin-top:20px;">
                     <div class="form-crear">

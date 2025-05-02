@@ -115,7 +115,7 @@ if (isset($_GET['editar'])) {
             <h2>Administrar Artículos</h2>
 
             <?php if (!$editando): ?>
-                <button onclick="toggleCrearArticulo()" class="btn3">Crear Nuevo Artículo</button>
+                <button onclick="toggleCrearArticulo()" class="btn6">Crear Nuevo Artículo</button>
 
                 <div id="formCrearArticulo" style="display:none; margin-top:20px; opacity:0; transition: opacity 0.5s;">
                     <div class="form-crear">
