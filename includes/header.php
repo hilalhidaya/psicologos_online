@@ -7,6 +7,11 @@
       <a href="index.php"><i class="fa-solid fa-brain"></i> MindCore</a>
     </div>
 
+    <div class="menu-toggle" id="menu-toggle">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+
+
 
     <ul class="nav-links">
       <li><a href="index.php" class="<?php echo ($pagina_actual == 'inicio') ? 'activo' : ''; ?>">Home</a></li>

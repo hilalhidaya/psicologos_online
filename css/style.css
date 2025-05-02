@@ -77,6 +77,13 @@ button {
     color: var(--naranja);
 }
 
+.menu-toggle {
+    font-size: 1.8rem;
+    color: var(--verde-oscuro);
+    cursor: pointer;
+    display: none;
+  }
+
 .nav-links {
     list-style: none;
     display: flex;
@@ -432,6 +439,7 @@ button {
 .intro_info {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    align-items: center;
     width: var(--container-width-sm);
     margin: 0 auto;
     gap: 4rem;
@@ -2428,6 +2436,10 @@ a.btn-danger {
         text-align: center;
         gap: 2rem;
     }
+    .hero-right{
+        width: var(--container-width-lg);
+        margin: 0 auto;
+    }
 
     .hero-right p {
         font-size: 1rem;
@@ -2439,9 +2451,12 @@ a.btn-danger {
        
     }
 
+    .intro_info{
+        grid-template-columns: 1fr 1fr;
+        padding-bottom: 3rem;
+    }
     .intro_cards_container {
         grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
         padding: 0 1.5rem;
     }
 
@@ -2461,7 +2476,7 @@ a.btn-danger {
 
     /* TARJETAS ESCALERA */
     .tarjetas_escalera {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
         padding: 3rem 2rem;
     }
 
@@ -2476,10 +2491,11 @@ a.btn-danger {
     }
 
     .sobre_img img {
-        width: 100%;
+        width: 80%;
     }
 
     .sobre_texto {
+        width: var(--container-width-sm);
         padding: 0;
     }
 
@@ -2496,13 +2512,15 @@ a.btn-danger {
     }
 
     .cita-img img {
-        max-width: 100%;
+        max-width: 80%;
     }
 
     /* ARTÍCULOS */
     .articulos-grid-5,
     .grid_articulos_container {
         grid-template-columns: repeat(2, 1fr);
+        width: var(--container-width-md);
+        margin: 0 auto;
         gap: 1.5rem;
     }
 
@@ -2573,6 +2591,44 @@ a.btn-danger {
 
 /* Hasta 768px */
 @media (max-width: 768px) {
+
+    .menu-toggle {
+        display: block;
+      }
+    
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background-color: var(--blanco);
+        align-items: flex-start;
+        gap: 0;
+        padding: 1rem 2rem;
+        display: none;
+        animation: fadeDown 0.3s ease forwards;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+    
+      .nav-links.show {
+        display: flex;
+      }
+    
+      .nav-links li {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+    
+      .nav-links li a {
+        font-size: 1rem;
+        width: 100%;
+        display: block;
+      }
+    
+      .nav-buttons {
+        display: none;
+      }
 
     .hero_container {
         grid-template-columns: repeat(1, 1fr);

@@ -261,7 +261,17 @@
 
     <?php include("includes/footer.php"); ?>
 
-<script src="js/main.js"></script>
+
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.getElementById("menu-toggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    toggle.addEventListener("click", function () {
+      navLinks.classList.toggle("show");
+    });
+  });
+</script>
 </body>
 
 </html>
