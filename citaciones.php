@@ -174,28 +174,7 @@ $citas = $stmt->get_result();
 
   <?php include("includes/footer.php"); ?>
 
-  <script>
-    function toggleMenu(btn) {
-      const menu = btn.nextElementSibling;
-      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-      document.querySelectorAll('.menu-acciones').forEach(m => {
-        if (m !== menu) m.style.display = 'none';
-      });
-    }
-    document.addEventListener('click', function (e) {
-      if (!e.target.matches('.btn-acciones')) {
-        document.querySelectorAll('.menu-acciones').forEach(m => m.style.display = 'none');
-      }
-    });
-
-    function mostrarEditarCita(id, fecha, hora, motivo) {
-      document.getElementById('formEditarCita').style.display = 'block';
-      document.getElementById('editarIdCita').value = id;
-      document.getElementById('editarFecha').value = fecha;
-      document.getElementById('editarHora').value = hora;
-      document.getElementById('editarMotivo').value = motivo;
-    }
-  </script>
+  <script src="js/citaciones.js"></script>
 
 </body>
 

@@ -157,15 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include("includes/footer.php"); ?>
 
-    <script>
-        // Activar todos los campos (excepto el email)
-        document.getElementById('btn-editar').addEventListener('click', function () {
-            const inputs = document.querySelectorAll('#formulario-perfil input:not([type=email]), #formulario-perfil select');
-            inputs.forEach(input => input.disabled = false);
-            document.getElementById('btn-guardar').style.display = 'inline-block';
-            this.style.display = 'none';
-        });
-    </script>
+    <script src="js/citaciones.js"></script>
 
 </body>
 

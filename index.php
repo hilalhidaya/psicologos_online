@@ -17,6 +17,8 @@
     <!-- se utiliza para asegurar que las páginas web se rendericen correctamente en las versiones más recientes del navegador -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
     <!-- logo en miniatura -->
     <link rel="Icon" href="img/brain-solid.svg">
 
@@ -32,17 +34,17 @@
     ?>
 
     <!-- PORTADA/HERO -->
-    <section class="hero">
+    <section class="hero" data-aos="fade-down">
         <div class="hero_container animar-aparicion">
-            <div class="hero-left">
+            <div class="hero-left" data-aos-delay="200">
                 <img src="img/portada.png" alt="Terapia ilustración">
             </div>
-            <div class="hero-right">
+            <div class="hero-right" data-aos-delay="400">
                 <h1>Tu salud mental importa, y tu cambio empieza hoy</h1>
                 <p>No importa dónde estés, la ayuda está al alcance de tu mano. Conectamos contigo desde cualquier
                     rincón de España, a través de terapia online o presencial, con los mejores profesionales para cuidar
                     tu bienestar.</p>
-                <div class="hero-buttons">
+                <div class="hero-buttons" data-aos-delay="600">
                     <button class="btn" onclick="location.href='profesionales.php#servicios'">Servicios</button>
                     <button class="btn btn6" onclick="location.href='contacto.php#cita'">Pide tu cita</button>
                 </div>
@@ -50,11 +52,11 @@
         </div>
     </section>
 
-    <section class="intro">
+    <section class="intro" data-aos="fade-up">
         <div class="intro_container">
             <div class="intro_info">
 
-                <div class="intro_info_text">
+                <div class="intro_info_text"  data-aos="fade-right">
                     <p class="subtitulo">Psicología</p>
                     <h1>Centro MindCore</h1>
                     <p>La mayoría de las personas somos conscientes de nuestros desequilibrios emocionales o problemas
@@ -67,41 +69,41 @@
                         voluntaria.</p>
                     <button class="btn btn5" onclick="location.href='contacto.php'">Más Sobre Nostros</button>
                 </div>
-                <div class="intro_info_img">
+                <div class="intro_info_img" data-aos="fade-left">
                     <img src="img/despacho.png" alt="despacho psicología">
                 </div>
             </div>
             <div class="intro_cards">
                 <div class="intro_cards_container">
-                    <div class="intro_card card1">
+                    <div class="intro_card card1" data-aos="zoom-in" data-aos-delay="100">
                         <p class="subtitulo">
                             Otros
                         </p>
                         <i class="fa-solid fa-hexagon-nodes"></i>
                         <h4>Neuropsicología</h4>
                     </div>
-                    <div class="intro_card card2">
+                    <div class="intro_card card2" data-aos="zoom-in" data-aos-delay="200">
                         <p class="subtitulo">
                             Psicología
                         </p>
                         <i class="fa-solid fa-scale-balanced"></i>
                         <h4>Psicología Jurídica</h4>
                     </div>
-                    <div class="intro_card card3">
+                    <div class="intro_card card3"data-aos="zoom-in" data-aos-delay="300">
                         <p class="subtitulo">
                             Psicología
                         </p>
                         <i class="fa-solid fa-hands-holding-child"></i>
                         <h4>Psicología Infantil y Juvenil</h4>
                     </div>
-                    <div class="intro_card card4">
+                    <div class="intro_card card4" data-aos="zoom-in" data-aos-delay="400">
                         <p class="subtitulo">
                             Psicología
                         </p>
                         <i class="fa-solid fa-user-group"></i>
                         <h4>Psicología Adultos</h4>
                     </div>
-                    <div class="intro_card card5">
+                    <div class="intro_card card5" data-aos="zoom-in" data-aos-delay="500">
                         <p class="subtitulo">
                             Otros
                         </p>
@@ -117,18 +119,18 @@
 
     <!-- TARJETAS EN ESCALERA -->
     <section class="tarjetas_escalera animar-aparicion">
-        <div class="tarjeta t1">
+        <div class="tarjeta t1" data-aos="fade-up" data-aos-delay="100">
             <h3>SERVICIOS</h3>
             <p>Desde terapia individual hasta acompañamiento familiar, descubre cómo te ayudamos a reconectar contigo
                 mismo.</p>
             <button class="btn" onclick="location.href='profesionales.php'">Ver servicios</button>
         </div>
-        <div class="tarjeta t2">
+        <div class="tarjeta t2" data-aos="fade-up" data-aos-delay="200">
             <h3>TERAPEUTAS</h3>
             <p>Psicólogos colegiados con amplia experiencia en salud emocional y mental, listos para acompañarte.</p>
             <button class="btn2" onclick="location.href='profesionales.php'">Conócenos</button>
         </div>
-        <div class="tarjeta t3">
+        <div class="tarjeta t3" data-aos="fade-up" data-aos-delay="300">
             <h3>TESTIMONIOS</h3>
             <p>Historias reales de superación contadas por quienes decidieron dar el primer paso hacia el cambio.</p>
             <button class="btn3" onclick="location.href='contacto.php'">Leer más</button>
@@ -136,12 +138,12 @@
     </section>
 
     <!-- SOBRE NOSOTROS -->
-    <section class="sobre_nosotros animar-aparicion">
+    <section class="sobre_nosotros" data-aos="fade-right">
 
-        <div class="sobre_img">
+        <div class="sobre_img" data-aos="zoom-in-right">
             <img src="img/sobre_nosotros.png" alt="Sobre nosotros">
         </div>
-        <div class="sobre_texto">
+        <div class="sobre_texto" data-aos="fade-left">
             <p class="subtitulo">TE AYUDAMOS</p>
             <h2>UN ESPACIO PARA TU BIENESTAR EMOCIONAL</h2>
             <p>En MindCore, creemos que cada persona merece un espacio donde sentirse escuchada y comprendida.
@@ -179,7 +181,7 @@
     </section>
 
     <!-- FRASE REFLEXIVA -->
-    <section class="frase animar-aparicion">
+    <section class="frase" data-aos="fade-up">
         <div class="frase_container">
             <blockquote>
                 <p>“A veces, lo más valiente que puedes hacer es permitirte ser escuchado, no para encontrar respuestas,
@@ -190,9 +192,9 @@
     </section>
 
     <!-- PROGRAMAR CITA -->
-    <section class="cita animar-aparicion">
+    <section class="cita" data-aos="fade-up">
         <div class="cita_container">
-            <div class="cita-texto">
+            <div class="cita-texto" data-aos="fade-up">
                 <h2>EL MOMENTO DE EMPEZAR ES AHORA</h2>
                 <p>No necesitas tocar fondo para comenzar a sanar. Tomar la decisión de pedir ayuda es valiente, y en
                     MindCore estamos para acompañarte en cada paso.
@@ -203,7 +205,7 @@
                     inmediatamente. Tu salud emocional es tan importante como tu salud física.</p>
                 <button class="btn2" onclick="location.href='contacto.php#cita'">Programa tu cita</button>
             </div>
-            <div class="cita-img">
+            <div class="cita-img" data-aos="zoom-in" data-aos-delay="200">
                 <img src="img/reloj_arena.png" alt="Reloj de arena">
             </div>
         </div>
@@ -212,10 +214,10 @@
 
     <!-- ÚLTIMOS ARTÍCULOS -->
     <section class="ultimos_articulos animar-aparicion">
-        <p class="subtitulo">BLOG Y NOTICIAS</p>
-        <h2>Últimos artículos</h2>
+        <p class="subtitulo" data-aos="fade-down">BLOG Y NOTICIAS</p>
+        <h2 data-aos="fade-down" data-aos-delay="100">Últimos artículos</h2>
 
-        <div class="articulos-grid-5">
+        <div class="articulos-grid-5" data-aos="fade-up" data-aos-delay="100">
             <?php
             $sql = "SELECT a.id, a.titulo, a.resumen, d.nombre, d.apellidos
                 FROM articulos a
@@ -255,23 +257,21 @@
 
 
     <!-- FRASE FINAL -->
-    <section class="frase-final animar-aparicion">
+    <section class="frase-final" data-aos="fade-in">
         <p>“Lo que no estás cambiando, lo estás escogiendo.”</p>
     </section>
 
     <?php include("includes/footer.php"); ?>
 
 
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const toggle = document.getElementById("menu-toggle");
-    const navLinks = document.querySelector(".nav-links");
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
 
-    toggle.addEventListener("click", function () {
-      navLinks.classList.toggle("show");
-    });
-  });
-</script>
 </body>
 
 </html>

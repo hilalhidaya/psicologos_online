@@ -109,7 +109,7 @@ if (isset($_GET['editar'])) {
 
                 <div id="formCrearUsuario" style="display:none; margin-top:20px;">
                     <div class="form-crear">
-                        <form action="usuarios_admin.php" method="POST" class="form-grid">
+                        <form action="usuarios_admin.php" method="POST" class="form-grid form-">
                             <div>
                                 <label>Nombre:</label>
                                 <input type="text" name="nombre" required>
@@ -207,28 +207,7 @@ if (isset($_GET['editar'])) {
 
     <?php include("includes/footer.php"); ?>
 
-    <script>
-        function toggleMenu(button) {
-            const menu = button.nextElementSibling;
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-
-            // Cierra otros menús si abres uno nuevo
-            document.querySelectorAll('.menu-acciones').forEach(function (otherMenu) {
-                if (otherMenu !== menu) {
-                    otherMenu.style.display = 'none';
-                }
-            });
-        }
-
-        // Cierra los menús si haces click fuera
-        document.addEventListener('click', function (e) {
-            if (!e.target.matches('.btn-acciones')) {
-                document.querySelectorAll('.menu-acciones').forEach(function (menu) {
-                    menu.style.display = 'none';
-                });
-            }
-        });
-    </script>
+    <script src="js/articulos_admin.js"></script>
 
 </body>
 
