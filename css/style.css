@@ -1294,7 +1294,7 @@ button {
     text-align: center;
     position: relative;
     padding: 6rem 2rem;
-    margin: 0 auto;
+    margin: 5rem auto 0;
 }
 
 .contacto_portada::before {

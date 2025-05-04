@@ -11,6 +11,8 @@
     <script src="js/scripts.js" defer></script>
 
     <script src="https://kit.fontawesome.com/975a84afb8.js" crossorigin="anonymous"></script>
+    <!-- AOS Animations -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <!-- se utiliza para asegurar que las páginas web se rendericen correctamente en las versiones más recientes del navegador -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,15 +25,15 @@
 
 </head>
 <?php
-    include('includes/header.php');
-    ?>
+include('includes/header.php');
+?>
 
 <body>
 
 
 
-    <section class="profesionales_portada">
-        <div class="profesionales_portada_container">
+    <section class="profesionales_portada" data-aos="fade-down">
+        <div class="profesionales_portada_container" data-aos="zoom-in">
             <i class="fa-solid fa-brain"></i>
             <h1>TRABAJAMOS PARA AYUDARTE</h1>
             <p>Conoce a nuestros profesionales especializados. Psicología para adultos, adolescentes y niños</p>
@@ -40,7 +42,7 @@
 
     <section class="profesionales">
         <div class="profesionales_container">
-            <div class="profesionales_txt">
+            <div class="profesionales_txt" data-aos="fade-up">
                 <p class="subtitulo">MindCore</p>
                 <h1>Nuestros Profesionales</h1>
                 <p>La base de un buen servicio es confiar en un profesional cualificado que entienda lo que el paciente
@@ -49,7 +51,7 @@
 
             <div class="grid_psicologos">
 
-                <div class="psicologo_card">
+                <div class="psicologo_card"  data-aos="fade-up" data-aos-delay="0">
                     <img src="img/psicologo6.png" alt="Psicólogo Marco Silva">
                     <div class="info_basica">
                         <h3>Marco Silva</h3>
@@ -61,7 +63,7 @@
                     </div>
                 </div>
 
-                <div class="psicologo_card">
+                <div class="psicologo_card"  data-aos="fade-up" data-aos-delay="100">
                     <img src="img/psicologa1.png" alt="Psicóloga Ana López">
                     <div class="info_basica">
                         <h3>Ana López</h3>
@@ -73,7 +75,7 @@
                     </div>
                 </div>
 
-                <div class="psicologo_card">
+                <div class="psicologo_card" data-aos="fade-up" data-aos-delay="200">
                     <img src="img/psicologa3.png" alt="Psicóloga Mei Tanaka">
                     <div class="info_basica">
                         <h3>Mei Tanaka</h3>
@@ -85,7 +87,7 @@
                     </div>
                 </div>
 
-                <div class="psicologo_card">
+                <div class="psicologo_card" data-aos="fade-up" data-aos-delay="300">
                     <img src="img/psicologa2.png" alt="Psicóloga Clara Ruiz">
                     <div class="info_basica">
                         <h3>Clara Ruiz</h3>
@@ -97,7 +99,7 @@
                     </div>
                 </div>
 
-                <div class="psicologo_card">
+                <div class="psicologo_card" data-aos="fade-up" data-aos-delay="400">
                     <img src="img/psicologa4.png" alt="Psicóloga Laura Méndez">
                     <div class="info_basica">
                         <h3>Laura Méndez</h3>
@@ -109,11 +111,11 @@
                     </div>
                 </div>
 
-                <div class="psicologo_card">
+                <div class="psicologo_card" data-aos="fade-up" data-aos-delay="500">
                     <img src="img/psicologo5.png" alt="Psicólogo Javier Ortega">
                     <div class="info_basica">
                         <h3>Javier Ortega</h3>
-                        <p>Psicología Jurídica</p>
+                        <p>Psicología General</p>
                     </div>
                     <div class="info_hover">
                         <p>Apoyo psicológico en contextos legales y forenses.</p>
@@ -124,8 +126,8 @@
         </div>
     </section>
 
-    <section class="seccion_dudas">
-        <div class="dudas_container">
+    <section class="seccion_dudas" data-aos="fade-up">
+        <div class="dudas_container"  data-aos="zoom-in">
             <i class="fa-solid fa-question-circle"></i>
             <h2>¿Tienes dudas?</h2>
             <p>No estás solo/a. Si algo no te queda claro o simplemente quieres hablar con nosotros, estamos aquí para
@@ -135,9 +137,16 @@
     </section>
 
 
-
-
     <?php include("includes/footer.php"); ?>
+
+    <!-- Librería AOS -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
 </body>
 
 </html>

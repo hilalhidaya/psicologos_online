@@ -15,6 +15,8 @@
     <!-- se utiliza para asegurar que las páginas web se rendericen correctamente en las versiones más recientes del navegador -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
     <!-- logo en miniatura -->
     <link rel="Icon" href="img/brain-solid.svg">
 
@@ -30,7 +32,7 @@ include('includes/header.php');
 <body>
 
     <!-- SECCIÓN PORTADA -->
-    <section class="contacto_portada">
+    <section class="contacto_portada"   data-aos="fade-down">
         <div class="contacto_portada_container">
             <i class="fa-solid fa-brain"></i>
             <h1>Contáctanos</h1>
@@ -38,7 +40,7 @@ include('includes/header.php');
     </section>
 
     <!-- SECCIÓN CONTACTO -->
-    <section class="contacto_contacto">
+    <section class="contacto_contacto" data-aos="fade-right">
         <div class="contacto_contacto_container">
 
 
@@ -66,7 +68,7 @@ include('includes/header.php');
                 </form>
             </div>
 
-            <div class="contacto_datos">
+            <div class="contacto_datos" data-aos="fade-left" data-aos-delay="200">
                 <p class="subtitulo">Encuéntranos</p>
                 <h2>Contacto</h2>
                 <p><i class="fa-solid fa-location-dot"></i> Severo Ochoa X</p>
@@ -83,7 +85,7 @@ include('includes/header.php');
     </section>
 
     <!-- SECCIÓN CITA  -->
-    <section class="contacto-cita animar-aparicion">
+    <section class="contacto-cita" data-aos="fade-up">
         <div class="cita-container">
             <h2>¿Quieres pedir una cita con uno de nuestros psicólogos especializados?</h2>
             <p>Inicia sesión o regístrate para agendar tu primera sesión y empezar a mejorar tu bienestar emocional.</p>
@@ -94,11 +96,15 @@ include('includes/header.php');
         </div>
     </section>
 
-
-
-
-
     <?php include("includes/footer.php"); ?>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
 
 </body>
 

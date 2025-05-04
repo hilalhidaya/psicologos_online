@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-05-2025 a las 01:12:36
+-- Tiempo de generación: 04-05-2025 a las 04:56:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -91,19 +91,21 @@ CREATE TABLE `citas` (
 --
 
 INSERT INTO `citas` (`id`, `idUser`, `id_psicologo`, `fecha`, `hora`, `estado`, `motivo`) VALUES
-(2, 12, 15, '2025-05-23', '15:55:00', 'pendiente', 'prueba 2'),
-(6, 12, 17, '2025-05-15', '00:00:00', 'confirmada', 'prueba 3'),
-(7, 12, 15, '2025-05-06', '17:00:00', 'confirmada', 'gsgsgsfg'),
-(8, 12, 17, '2025-04-10', '17:09:00', 'pendiente', 'yttttttttt'),
-(9, 20, 15, '2025-05-08', '00:00:00', 'pendiente', 'No supero a mi exxx'),
-(10, 21, 17, '2025-05-05', '00:00:00', 'pendiente', 'Tengo mitomanía y narcisismo.'),
-(11, 20, 10, '2025-05-09', '11:01:00', 'cancelada', 'sss'),
+(2, 12, 15, '2025-05-23', '15:55:00', 'pendiente', 'Trastornos del sueño'),
+(6, 12, 17, '2025-05-15', '00:00:00', 'confirmada', 'Crisis existencial'),
+(7, 12, 15, '2025-05-06', '17:00:00', 'confirmada', 'Evaluación psicológica'),
+(8, 12, 17, '2025-05-07', '17:09:00', 'pendiente', 'Ansiedad '),
+(9, 20, 15, '2025-05-08', '00:00:00', 'confirmada', 'Problemas de pareja'),
+(10, 21, 17, '2025-05-05', '00:00:00', 'pendiente', 'Estrés laboral'),
+(11, 20, 10, '2025-05-09', '11:01:00', 'cancelada', 'Adicciones'),
 (12, 20, 10, '2025-05-09', '11:01:00', 'cancelada', 'Extraño a mi exaaa'),
 (13, 20, 0, '2025-05-08', '00:00:00', 'pendiente', 'No supero a mi ex'),
 (14, 20, 0, '2025-05-08', '00:00:00', 'pendiente', 'No supero a mi ex'),
 (15, 20, 0, '2025-05-08', '00:00:00', 'pendiente', 'No supero a mi ex'),
 (16, 20, 0, '2025-05-08', '00:00:00', 'pendiente', 'No supero a mi ex'),
-(17, 20, 0, '2025-05-08', '00:00:00', 'pendiente', 'No supero a mi exx');
+(17, 20, 0, '2025-05-08', '00:00:00', 'pendiente', 'No supero a mi exx'),
+(18, 18, 13, '2025-05-14', '10:45:00', 'pendiente', 'Psicología Infantil'),
+(19, 18, 14, '2025-05-23', '18:25:00', 'pendiente', 'Hija Adolescente Depresiva');
 
 -- --------------------------------------------------------
 
@@ -252,7 +254,7 @@ ALTER TABLE `articulos`
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `psicologos`

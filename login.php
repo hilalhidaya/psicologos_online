@@ -68,7 +68,7 @@ include('includes/header.php');
 
 <section class="login-wrap">
   <div class="login-fondo"></div>
-  <div class="login-card">
+  <div class="login-card" data-aos="fade-up">
     <h2>Bienvenido de nuevo</h2>
     <p>Introduce tus datos para iniciar sesión</p>
 
